@@ -243,7 +243,7 @@ func login(config *oauth2.Config, s sessions.Session, w http.ResponseWriter, r *
 
 func logout(s sessions.Session, w http.ResponseWriter, r *http.Request) {
 	next := extractPath(r.URL.Query().Get(keyNextPage))
-	s.Delete(keyToken)
+	s.Set(keyToken, "")
 	http.Redirect(w, r, next, http.StatusFound)
 }
 
@@ -274,7 +274,6 @@ func handleOAuth2Callback(config *oauth2.Config, s sessions.Session, w http.Resp
 }
 
 func unmarshallToken(s sessions.Session) *token {
-
 	if s.Get(keyToken) == nil {
 		return nil
 	}
